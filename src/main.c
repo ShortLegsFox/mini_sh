@@ -38,7 +38,6 @@ void display_prompt() {
  *
  * \return 1 if it exit successfully
  */
-// src/main.c
 int main(int argc, char **argv) {
     char command[MAX_CMD_LENGTH];
     int status = 0;
@@ -51,14 +50,11 @@ int main(int argc, char **argv) {
             break;
         }
 
-        // Remove trailing newline
         command[strcspn(command, "\n")] = '\0';
 
-        // Parse the command
         t_command *cmd = parse_command_line(command);
         if (!cmd) continue;
 
-        // Execute the command
         int pid = execute_command(cmd);
         if (pid > 0) {  // External command
             status = wait_for_children();
