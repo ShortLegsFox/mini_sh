@@ -9,8 +9,10 @@
  */
 #include <stdio.h>
 #include <stdlib.h>
-#include "commands.h"
+#include <unistd.h>
+#include "builtins.h"
 
-void who_function() {
-    printf("who\n");
+int builtin_who(char **args) {
+    // To be implemented
+    return 0;
 }

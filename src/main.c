@@ -13,13 +13,15 @@
 #include <errno.h>
 #include <unistd.h>
 #include "minishell.h"
-#include "commands.h"
+#include "executor.h"
+#include "parser.h"
+
 
 /**
  * Display prompt
  *
  * void method
- * Showing the "mini_sh$ " prompt in terminal with stdout to retrieve command input from the user
+ * Showing the "mini_sh$ + current folder" prompt in terminal with stdout to retrieve command input from the user
  */
 void display_prompt() {
     char cwd[1024];
@@ -36,41 +38,35 @@ void display_prompt() {
  *
  * \return 1 if it exit successfully
  */
+// src/main.c
 int main(int argc, char **argv) {
-    char command[MAX_LENGTH];
+    char command[MAX_CMD_LENGTH];
+    int status = 0;
 
     while (1) {
         display_prompt();
 
-        if (fgets(command, MAX_LENGTH, stdin) == NULL) {
-            printf("Exiting mini_sh, Goodbye !");
+        if (fgets(command, MAX_CMD_LENGTH, stdin) == NULL) {
+            printf("\nGoodbye!\n");
             break;
         }
 
-        //printf("You entered: %s\n", command);
-
+        // Remove trailing newline
         command[strcspn(command, "\n")] = '\0';
 
-        if (strcmp(command, "ls") == 0) {
-            ls_function(argc, argv);
+        // Parse the command
+        t_command *cmd = parse_command_line(command);
+        if (!cmd) continue;
+
+        // Execute the command
+        int pid = execute_command(cmd);
+        if (pid > 0) {  // External command
+            status = wait_for_children();
         }
 
-        if (strcmp(command, "who") == 0) {
-            who_function();
-        }
-
-        if (strcmp(command, "ps") == 0) {
-            ps_function();
-        }
-
-        if (strcmp(command, "date") == 0) {
-            date_function();
-        }
-
-        if (strcmp(command, "exit") == 0) {
-            printf("Exiting mini_sh, Goodbye !");
-            break;
-        }
+        // Free command structure
+        free_command(cmd);
     }
-    return EXIT_SUCCESS;
+
+    return status;
 }

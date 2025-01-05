@@ -9,8 +9,10 @@
  */
 #include <stdio.h>
 #include <stdlib.h>
-#include "commands.h"
+#include <unistd.h>
+#include "builtins.h"
 
-void ps_function() {
-    printf("ps\n");
+int builtin_ps(char **args) {
+    // To be implemented
+    return 0;
 }

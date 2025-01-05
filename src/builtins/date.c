@@ -9,8 +9,10 @@
  */
 #include <stdio.h>
 #include <stdlib.h>
-#include "commands.h"
+#include <unistd.h>
+#include "builtins.h"
 
-void date_function() {
-    printf("date\n");
+int builtin_date(char **args) {
+    // To be implemented
+    return 0;
 }

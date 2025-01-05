@@ -21,10 +21,14 @@ include_directories(${INC_DIR})
 
 # Source files
 file(GLOB SRC_FILES ${SRC_DIR}/*.c)
-file(GLOB COMMANDS_FILES ${SRC_DIR}/commands/*.c)
+file(GLOB BUILTINS_FILES ${SRC_DIR}/builtins/*.c)
+file(GLOB EXECUTORS_FILES ${SRC_DIR}/executor/*.c)
+file(GLOB PARSERS_FILES ${SRC_DIR}/parser/*.c)
 
 # Combine the source files into one list
-list(APPEND SRC_FILES ${COMMANDS_FILES})
+list(APPEND SRC_FILES ${BUILTINS_FILES})
+list(APPEND SRC_FILES ${EXECUTORS_FILES})
+list(APPEND SRC_FILES ${PARSERS_FILES})
 
 # Output directories
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/${BIN_DIR})
