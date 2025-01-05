@@ -1,5 +1,5 @@
-#ifndef SKELETON_H
-#define SKELETON_H
+#ifndef MINISHELL_H
+#define MINISHELL_H
 
 #define STDOUT 1
 #define STDERR 2

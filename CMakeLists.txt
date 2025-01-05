@@ -21,6 +21,10 @@ include_directories(${INC_DIR})
 
 # Source files
 file(GLOB SRC_FILES ${SRC_DIR}/*.c)
+file(GLOB COMMANDS_FILES ${SRC_DIR}/commands/*.c)
+
+# Combine the source files into one list
+list(APPEND SRC_FILES ${COMMANDS_FILES})
 
 # Output directories
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/${BIN_DIR})

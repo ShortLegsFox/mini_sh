@@ -11,7 +11,8 @@
 #include <stdlib.h>
 #include <string.h>
 #include <errno.h>
-#include <main.h>
+#include <minishell.h>
+#include "commands.h"
 
 /**
  * Display prompt
@@ -40,9 +41,25 @@ int main(int argc, char **argv) {
             break;
         }
 
-        printf("You entered: %s\n", command);
+        //printf("You entered: %s\n", command);
 
         command[strcspn(command, "\n")] = '\0';
+
+        if (strcmp(command, "ls") == 0) {
+            ls_function();
+        }
+
+        if (strcmp(command, "who") == 0) {
+            who_function();
+        }
+
+        if (strcmp(command, "ps") == 0) {
+            ps_function();
+        }
+
+        if (strcmp(command, "date") == 0) {
+            date_function();
+        }
 
         if (strcmp(command, "exit") == 0) {
             printf("Exiting mini_sh, Goodbye !");
