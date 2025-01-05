@@ -46,7 +46,7 @@ int main(int argc, char **argv) {
         command[strcspn(command, "\n")] = '\0';
 
         if (strcmp(command, "ls") == 0) {
-            ls_function();
+            ls_function(argc, argv);
         }
 
         if (strcmp(command, "who") == 0) {
