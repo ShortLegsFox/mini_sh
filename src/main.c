@@ -11,7 +11,8 @@
 #include <stdlib.h>
 #include <string.h>
 #include <errno.h>
-#include <minishell.h>
+#include <unistd.h>
+#include "minishell.h"
 #include "commands.h"
 
 /**
@@ -21,7 +22,12 @@
  * Showing the "mini_sh$ " prompt in terminal with stdout to retrieve command input from the user
  */
 void display_prompt() {
-    printf("mini_sh$ ");
+    char cwd[1024];
+    if (getcwd(cwd, sizeof(cwd)) == NULL) {
+        printf("mini_sh$ ");
+    } else {
+        printf("mini_sh: %s$ ", cwd);
+    }
     fflush(stdout);
 }
 

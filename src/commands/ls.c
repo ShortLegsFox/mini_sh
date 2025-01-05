@@ -87,8 +87,10 @@ void ls_function(int argc, char** argv) {
         time_t t = file_stat.st_ctime;
         struct tm * last_modified_date = localtime(&t);
         char date_buffer[100];
-        strftime(date_buffer, sizeof(date_buffer), "%a %b %d %H:%M:%S %Y ", last_modified_date);
+        strftime(date_buffer, sizeof(date_buffer), "%a %b %d %H:%M:%S %Y", last_modified_date);
         dprintf(STDOUT, "%s", date_buffer);
+
+        dprintf(STDOUT, "%s", "  ");
 
         // Print names
         dprintf(STDOUT, "%s\n", read_dir->d_name);
