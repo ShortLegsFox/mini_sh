@@ -15,10 +15,9 @@
 
 static builtin t_builtins[] = {
     {"cd", &builtin_cd},
-    {"date", &builtin_date},
-    {"ls", &builtin_ls},
-    {"ps", &builtin_ps},
-    {"who", &builtin_who},
+    {"echo", &builtin_echo},
+    {"exit", &builtin_exit},
+    {"pwd", &builtin_pwd},
     {NULL, NULL}
 };
 

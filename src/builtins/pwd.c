@@ -12,7 +12,7 @@
 #include <unistd.h>
 #include "builtins.h"
 
-int builtin_date(char **args) {
+int builtin_pwd(char **args) {
     // To be implemented
     return 0;
 }

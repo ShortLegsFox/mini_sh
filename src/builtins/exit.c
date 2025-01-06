@@ -1,18 +1,18 @@
 /**
-* \file ps.c
- * \ps command for mini_sh.
+* \file ls.c
+ * \ls command for mini_sh.
  * \author SLF
  * \version 0.1
  * \date 05/01/2025
  *
- * list processes of current machine.
+ * list directories and file from current position.
  */
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
 #include "builtins.h"
 
-int builtin_ps(char **args) {
+int builtin_exit(char **args) {
     // To be implemented
     return 0;
 }
