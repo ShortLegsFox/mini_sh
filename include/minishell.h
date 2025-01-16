@@ -16,7 +16,7 @@
 
 typedef struct s_command {
     char *name;          // Command name
-    char * args[10];         // Command arguments
+    char **args;         // Command arguments
     char *input_file;    // Input redirection
     char *output_file;   // Output redirection
     int append_output;   // Flag for append mode
