@@ -1,7 +1,7 @@
 /**
 * \file parser.c
  * \parser file for mini_sh.
- * \author SLF
+ * \author Ian B., Léo H.
  * \version 0.1
  * \date 05/01/2025
  *
@@ -13,6 +13,11 @@
 #include "parser.h"
 
 
+/**
+ * Command initializer
+ *
+ * \return an "empty" command, ready to be completed after the parsing process
+ */
 static t_command *create_command() {
     t_command *cmd = malloc(sizeof(t_command));
     cmd->name = NULL;
@@ -25,6 +30,11 @@ static t_command *create_command() {
     return cmd;
 }
 
+/**
+ * Command parser function
+ *
+ * \return the command fully completed after all parsing operations
+ */
 t_command *parse_command_line(char *line) {
     t_lexer lexer = {line, 0, strlen(line)};
     t_command *cmd = create_command();
