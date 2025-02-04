@@ -1,6 +1,12 @@
 #ifndef TYPEDEF_H
 #define TYPEDEF_H
 
+#define STDOUT 1
+#define STDERR 2
+#define MAX_LENGTH 4096
+#define MAX_CMD_LENGTH 1024
+#define MAX_ARGS 128
+
 typedef struct s_command {
     char *name;          // Command name
     char **args;         // Command arguments

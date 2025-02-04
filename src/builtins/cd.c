@@ -14,18 +14,15 @@
 
 
 int builtin_cd(char **args) {
-    if (args[0] == NULL) {
-        // cd sans argument -> aller au home directory
-        char *home = getenv("HOME");
-        if (home == NULL) {
-            fprintf(stderr, "cd: HOME not set\n");
-            return 1;
-        }
-        return chdir(home);
+    if (args[1] == NULL) {
+        fprintf(stderr, "cd: missing argument\n");
+        return 1;
     }
-    if (chdir(args[0]) != 0) {
+
+    if (chdir(args[1]) != 0) {
         perror("cd");
         return 1;
     }
+
     return 0;
 }

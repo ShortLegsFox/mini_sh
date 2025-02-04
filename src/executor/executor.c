@@ -1,7 +1,7 @@
 /**
 * \file executor.c
  * \executor file for mini_sh.
- * \author SLF
+ * \author Ian B., Léo H.
  * \version 0.1
  * \date 05/01/2025
  *
@@ -21,6 +21,11 @@ static builtin t_builtins[] = {
     {NULL, NULL}
 };
 
+/**
+ * Find command type (based on command name)
+ *
+ * \return CMD_BUILTIN if in builtins list, otherwise return CMD_EXTERNAL
+ */
 cmd_type get_command_type(const char *cmd_name) {
     for (int i = 0; t_builtins[i].name != NULL; i++) {
         if (strcmp(cmd_name, t_builtins[i].name) == 0) {
@@ -30,9 +35,15 @@ cmd_type get_command_type(const char *cmd_name) {
     return CMD_EXTERNAL;
 }
 
+/**
+ * Command executor
+ *
+ * \return pid of the command once executed, -1 if failed
+ */
 int execute_command(t_command *cmd) {
     if (!cmd || !cmd->name) return -1;
 
+    // -- If command is builtins, execute builtin function associated
     if (get_command_type(cmd->name) == CMD_BUILTIN) {
         for (int i = 0; t_builtins[i].name != NULL; i++) {
             if (strcmp(cmd->name, t_builtins[i].name) == 0) {
@@ -48,20 +59,20 @@ int execute_command(t_command *cmd) {
         return -1;
     }
 
-    if (pid == 0) {  // Processus fils
-        // Gestion des redirections si nécessaire
+    if (pid == 0) {  // -- Processus fils
         if (handle_redirections(cmd) != 0) {
             exit(EXIT_FAILURE);
         }
 
-        // Exécute la commande
+        // -- Exécute la commande avec execvp
         execvp(cmd->name, cmd->args);
         perror("execvp");
         exit(EXIT_FAILURE);
     }
 
-    // Le processus père continue ici
-    return pid;  // Retourne le PID pour le wait
+    // -- Le processus père continue ici...
+
+    return pid;
 }
 
 int wait_for_children(void) {
@@ -69,7 +80,7 @@ int wait_for_children(void) {
     pid_t pid;
     int last_status = 0;
 
-    // Attend tous les processus fils
+    // -- Attend tous les processus fils
     while ((pid = waitpid(-1, &status, 0)) > 0) {
         if (WIFEXITED(status)) {
             last_status = WEXITSTATUS(status);
