@@ -1,7 +1,7 @@
 /**
 * \file lexer.c
  * \lexer file for mini_sh.
- * \author SLF
+ * \author Ian B., Léo H.
  * \version 0.1
  * \date 05/01/2025
  *
@@ -25,10 +25,12 @@ t_token *create_token(token_type type, char *value) {
 }
 
 t_token *get_next_token(t_lexer *lexer) {
+    // -- Skip whitespaces
     while (lexer->pos < lexer->length && is_whitespace(lexer->input[lexer->pos])) {
         lexer->pos++;
     }
 
+    // -- End of file token if position >= lenght
     if (lexer->pos >= lexer->length) {
         return create_token(TOKEN_EOF, NULL);
     }
@@ -54,7 +56,7 @@ t_token *get_next_token(t_lexer *lexer) {
         return create_token(TOKEN_REDIRECT_OUT, strdup(">"));
     }
 
-    // Handle word tokens
+    // -- Handle word tokens
     int start = lexer->pos;
     int in_quotes = 0;
     char quote_char = 0;

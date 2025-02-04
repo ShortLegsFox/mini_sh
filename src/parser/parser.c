@@ -79,6 +79,9 @@ t_command *parse_command_line(char *line) {
                     current_cmd->output_file = strdup(token->value);
                 }
                 break;
+
+            default:
+                break;
         }
         free(token->value);
         free(token);
