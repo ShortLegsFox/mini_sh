@@ -1,7 +1,7 @@
 /**
  * \file main.c
- * \brief Basic parsing options skeleton.
- * \author SLF
+ * \brief main for minishell project
+ * \author Ian B, Léo H.
  * \version 0.1
  * \date 05/01/2025
  *
@@ -45,22 +45,25 @@ int main(int argc, char **argv) {
     while (1) {
         display_prompt();
 
+        // -- Check for clean exit (in case of error or ctrl D / Z)
         if (fgets(command, MAX_CMD_LENGTH, stdin) == NULL) {
             printf("\nGoodbye!\n");
             break;
         }
 
+        // -- Removing newline character kept by fgets
         command[strcspn(command, "\n")] = '\0';
 
+        // -- Parse input into a command
         t_command *cmd = parse_command_line(command);
         if (!cmd) continue;
 
+        // -- Using the interpretor with the parsed command
         int pid = execute_command(cmd);
-        if (pid > 0) {  // External command
+        if (pid > 0) {
             status = wait_for_children();
         }
 
-        // Free command structure
         free_command(cmd);
     }
 
