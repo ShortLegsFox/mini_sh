@@ -13,6 +13,6 @@
 #include "builtins.h"
 
 int builtin_exit(char **args) {
-    // To be implemented
-    return 0;
+    printf("\nGoodbye dear user !\n");
+    exit(0);
 }
