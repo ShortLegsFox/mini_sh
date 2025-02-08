@@ -13,6 +13,11 @@
 #include "builtins.h"
 
 int builtin_pwd(char **args) {
-    // To be implemented
+    char cwd[1024];
+    if (getcwd(cwd, sizeof(cwd))) {
+        printf("%s\n", cwd);
+        return 1;
+    }
+
     return 0;
 }

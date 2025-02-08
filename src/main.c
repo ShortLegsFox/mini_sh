@@ -28,10 +28,18 @@ void display_prompt() {
     if (getcwd(cwd, sizeof(cwd)) == NULL) {
         printf("mini_sh$ ");
     } else {
-        printf("mini_sh: %s$ ", cwd);
+        char *last_dir = strrchr(cwd, '/');
+        if (last_dir != NULL) {
+            last_dir++;
+        } else {
+            last_dir = cwd;
+        }
+
+        printf("mini_sh->%s$ ", last_dir);
     }
     fflush(stdout);
 }
+
 
 /**
  * Shell main loop
