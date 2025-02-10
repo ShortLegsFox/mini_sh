@@ -43,7 +43,7 @@ cmd_type get_command_type(const char *cmd_name) {
 int execute_command(t_command *cmd) {
     if (!cmd || !cmd->name) return -1;
 
-    // -- If command is builtins, execute builtin function associated
+    // -- Si c'est un builtin, l'exécuter directement
     if (get_command_type(cmd->name) == CMD_BUILTIN) {
         for (int i = 0; t_builtins[i].name != NULL; i++) {
             if (strcmp(cmd->name, t_builtins[i].name) == 0) {
@@ -53,7 +53,6 @@ int execute_command(t_command *cmd) {
     }
 
     pid_t pid = fork();
-
     if (pid == -1) {
         perror("fork");
         return -1;
@@ -64,16 +63,24 @@ int execute_command(t_command *cmd) {
             exit(EXIT_FAILURE);
         }
 
-        // -- Exécute la commande avec execvp
         execvp(cmd->name, cmd->args);
         perror("execvp");
         exit(EXIT_FAILURE);
     }
 
-    // -- Le processus père continue ici...
+    int status;
+    waitpid(pid, &status, 0);
 
-    return pid;
+    if (cmd->next_operator) {
+        if ((cmd->next_operator->type == TOKEN_AND && WIFEXITED(status) && WEXITSTATUS(status) == 0) ||
+            (cmd->next_operator->type == TOKEN_OR && (!WIFEXITED(status) || WEXITSTATUS(status) != 0))) {
+            return execute_command(cmd->pipe_next);
+            }
+    }
+
+    return WIFEXITED(status) ? WEXITSTATUS(status) : -1;
 }
+
 
 int wait_for_children(void) {
     int status;

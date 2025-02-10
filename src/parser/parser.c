@@ -27,6 +27,7 @@ static t_command *create_command() {
     cmd->output_file = NULL;
     cmd->append_output = 0;
     cmd->pipe_next = NULL;
+    cmd->next_operator = NULL;
     return cmd;
 }
 
@@ -79,6 +80,20 @@ t_command *parse_command_line(char *line) {
                     current_cmd->output_file = strdup(token->value);
                 }
                 break;
+
+            case TOKEN_AND:
+            case TOKEN_OR:
+                current_cmd->next_operator = malloc(sizeof(t_token));  // Allouer une nouvelle mémoire
+                    if (!current_cmd->next_operator) {
+                        perror("malloc failed");
+                        exit(EXIT_FAILURE);
+                    }
+                    current_cmd->next_operator->type = token->type;  // Copier seulement le type
+                    current_cmd->pipe_next = create_command();
+                    current_cmd = current_cmd->pipe_next;
+                    arg_index = 0;
+            break;
+
 
             default:
                 break;

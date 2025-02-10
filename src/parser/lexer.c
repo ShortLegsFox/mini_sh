@@ -39,7 +39,20 @@ t_token *get_next_token(t_lexer *lexer) {
 
     if (current == '|') {
         lexer->pos++;
+        if (lexer->pos < lexer->length && lexer->input[lexer->pos] == '|') {
+            lexer->pos++;
+            return create_token(TOKEN_OR, strdup("||"));
+        }
         return create_token(TOKEN_PIPE, strdup("|"));
+    }
+
+    if (current == '&') {
+        lexer->pos++;
+        if (lexer->pos < lexer->length && lexer->input[lexer->pos] == '&') {
+            lexer->pos++;
+            return create_token(TOKEN_AND, strdup("&&"));
+        }
+        return create_token(TOKEN_BACKGROUND, strdup("&"));
     }
 
     if (current == '<') {

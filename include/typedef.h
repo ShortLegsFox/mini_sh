@@ -14,6 +14,7 @@ typedef struct s_command {
     char *output_file;   // Output redirection
     int append_output;   // Flag for append mode
     struct s_command *pipe_next;  // Next command in pipeline
+    struct s_token *next_operator; // Next operator in command chain
 } t_command;
 
 typedef enum {
@@ -22,6 +23,9 @@ typedef enum {
     TOKEN_REDIRECT_IN,
     TOKEN_REDIRECT_OUT,
     TOKEN_APPEND,
+    TOKEN_OR,
+    TOKEN_AND,
+    TOKEN_BACKGROUND,
     TOKEN_EOF
 } token_type;
 
