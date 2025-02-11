@@ -1,0 +1,33 @@
+.TH MINI_SH 1 "Février 2025" "Version 1.0" "Page de manuel de mini_sh"
+.SH NOM
+mini_sh \- Mini shell personnalisé
+
+.SH SYNOPSIS
+.B mini_sh
+[\fIOPTIONS\fR]
+
+.SH DESCRIPTION
+.B mini_sh
+est un mini shell personnalisé qui prend en charge l'exécution de commandes, les pipes,
+les redirections, les variables d'environnement et les alias.
+
+.SH OPTIONS
+.TP
+.B -c "commande"
+Exécute une commande en mode batch.
+
+.SH EXEMPLES
+.TP
+Lancer le shell interactif :
+.B mini_sh
+
+.TP
+Exécuter une commande en mode batch :
+.B mini_sh -c "ls -al | grep toto"
+
+.SH AUTEURS
+Développé par Ian BELLOT. et Léo HOTZ.
+
+.SH VOIR AUSSI
+.B bash(1), sh(1), execvp(3), fork(2)
+
