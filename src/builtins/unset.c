@@ -1,6 +1,6 @@
 /**
 * \file unset.c
- * \export command for mini_sh (env variable).
+ * \unset command for mini_sh (env variable).
  * \author Ian B, Léo H.
  * \version 0.1
  * \date 05/01/2025

@@ -1,7 +1,7 @@
 /**
-* \file ps.c
- * \ps command for mini_sh.
- * \author SLF
+* \file echo.c
+ * \echo command for mini_sh.
+ * \author Ian B, Léo H.
  * \version 0.1
  * \date 05/01/2025
  *
@@ -17,11 +17,9 @@
 int builtin_echo(char **args) {
     for (int i = 1; args[i] != NULL; i++) {
         char *arg = args[i];
-        int len = strlen(arg);
 
-        // Vérifie si l'argument commence par '$'
         if (arg[0] == '$' && strlen(arg) > 1) {
-            char *env_value = getenv(arg + 1); // Récupère la valeur de la variable
+            char *env_value = getenv(arg + 1);
             if (env_value) {
                 printf("%s", env_value);
             }

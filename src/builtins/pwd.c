@@ -1,7 +1,7 @@
 /**
-* \file date.c
- * \date command for mini_sh.
- * \author SLF
+* \file pwd.c
+ * \pwd command for mini_sh.
+ * \author Ian B, Léo H.
  * \version 0.1
  * \date 05/01/2025
  *
