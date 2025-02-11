@@ -11,7 +11,7 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include "parser.h"
-
+#include "utils.h"
 
 /**
  * Command initializer
@@ -37,6 +37,7 @@ static t_command *create_command() {
  * \return the command fully completed after all parsing operations
  */
 t_command *parse_command_line(char *line) {
+    save_to_history(line);
     t_lexer lexer = {line, 0, strlen(line)};
     t_command *cmd = create_command();
     t_command *current_cmd = cmd;

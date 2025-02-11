@@ -37,6 +37,7 @@ set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/${BIN_DIR})
 
 # Add Executable
 add_executable(mini_sh ${SRC_FILES}
+        src/utils/utils.c
         src/builtins/export.c)
 target_compile_options(mini_sh PRIVATE -Wall)
 target_include_directories(mini_sh PRIVATE ${INC_DIR})
