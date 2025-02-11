@@ -20,6 +20,7 @@ static builtin t_builtins[] = {
     {"pwd", &builtin_pwd},
     {"unset", &builtin_unset},
     {"export", &builtin_export},
+    {"alias", &builtin_alias},
     {NULL, NULL}
 };
 

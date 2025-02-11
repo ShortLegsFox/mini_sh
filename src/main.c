@@ -15,6 +15,7 @@
 #include "minishell.h"
 #include "executor.h"
 #include "parser.h"
+#include "alias.h"
 
 
 /**
@@ -67,6 +68,7 @@ int main(int argc, char **argv) {
         // -- Check for clean exit (in case of error or ctrl D / Z)
         if (fgets(command, MAX_CMD_LENGTH, stdin) == NULL) {
             printf("\nGoodbye!\n");
+            free_alias_list();
             break;
         }
 

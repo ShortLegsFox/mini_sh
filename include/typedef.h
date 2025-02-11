@@ -40,4 +40,11 @@ typedef struct s_lexer {
     int length;
 } t_lexer;
 
+
+typedef struct s_alias {
+    char *name;
+    char *command;
+    struct s_alias *next;
+} t_alias;
+
 #endif
