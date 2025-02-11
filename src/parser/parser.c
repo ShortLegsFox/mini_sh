@@ -11,9 +11,7 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include "parser.h"
-
-
-#define HISTORY_FILE "/tmp/mini_shell_history.txt"
+#include "utils.h"
 
 /**
  * Command initializer
@@ -108,20 +106,6 @@ t_command *parse_command_line(char *line) {
     free(token);
     return cmd;
 }
-
-/**
- * Save last command to history
- * @param command
- */
-void save_to_history(char* command) {
-
-    FILE* file = fopen(HISTORY_FILE, "a");
-    if (file) {
-        fprintf(file, "%s\n", command);
-        fclose(file);
-    }
-}
-
 
 void free_command(t_command *cmd) {
     if (!cmd) return;

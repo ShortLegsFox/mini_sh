@@ -10,7 +10,6 @@ t_token *create_token(token_type type, char *value);
 t_token *get_next_token(t_lexer *lexer);
 
 t_command *parse_command_line(char *line);
-void save_to_history(char *command);
 void free_command(t_command *cmd);
 
 #endif
