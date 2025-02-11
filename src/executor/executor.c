@@ -35,6 +35,66 @@ cmd_type get_command_type(const char *cmd_name) {
     return CMD_EXTERNAL;
 }
 
+void execute_pipeline(t_command *cmd) {
+    int pipefd[2];
+    pid_t pid1, pid2;
+
+    if (!cmd || !cmd->pipe_next) {
+        return;
+    }
+
+    if (pipe(pipefd) == -1) {
+        perror("pipe");
+        return;
+    }
+
+    // Premier processus (commande de gauche)
+    pid1 = fork();
+    if (pid1 == -1) {
+        perror("fork");
+        return;
+    }
+    if (pid1 == 0) {
+        dup2(pipefd[1], STDOUT_FILENO); // Redirige stdout vers le pipe
+        close(pipefd[0]); // Ferme l'entrée du pipe
+        close(pipefd[1]); // Ferme la sortie du pipe après redirection
+
+        if (get_command_type(cmd->name) == CMD_BUILTIN) {
+            for (int i = 0; t_builtins[i].name != NULL; i++) {
+                if (strcmp(cmd->name, t_builtins[i].name) == 0) {
+                    exit(t_builtins[i].func(cmd->args));
+                }
+            }
+        } else {
+            execvp(cmd->name, cmd->args);
+            perror("execvp");
+            exit(EXIT_FAILURE);
+        }
+    }
+
+    // Deuxième processus (commande de droite)
+    pid2 = fork();
+    if (pid2 == -1) {
+        perror("fork");
+        return;
+    }
+    if (pid2 == 0) {
+        dup2(pipefd[0], STDIN_FILENO); // Redirige stdin depuis le pipe
+        close(pipefd[0]); // Ferme l'entrée après redirection
+        close(pipefd[1]); // Ferme la sortie du pipe
+
+        execute_command(cmd->pipe_next); // Exécute la commande suivante
+        exit(EXIT_FAILURE);
+    }
+
+    close(pipefd[0]); // Ferme le pipe dans le parent
+    close(pipefd[1]);
+
+    waitpid(pid1, NULL, 0);
+    waitpid(pid2, NULL, 0);
+}
+
+
 /**
  * Command executor
  *
@@ -43,11 +103,15 @@ cmd_type get_command_type(const char *cmd_name) {
 int execute_command(t_command *cmd) {
     if (!cmd || !cmd->name) return -1;
 
+    if (cmd->pipe_next) {
+        execute_pipeline(cmd);
+        return 0;
+    }
+
     if (handle_redirections(cmd) != 0) {
         return -1;
     }
 
-    // -- Si c'est un builtin, l'exécuter directement
     if (get_command_type(cmd->name) == CMD_BUILTIN) {
         for (int i = 0; t_builtins[i].name != NULL; i++) {
             if (strcmp(cmd->name, t_builtins[i].name) == 0) {
