@@ -12,6 +12,7 @@
 #include <unistd.h>
 #include "parser.h"
 #include "utils.h"
+#include "alias.h"
 
 /**
  * Command initializer
@@ -38,7 +39,8 @@ static t_command *create_command() {
  */
 t_command *parse_command_line(char *line) {
     save_to_history(line);
-    t_lexer lexer = {line, 0, strlen(line)};
+    char*alias_cmd = get_alias(line);
+    t_lexer lexer = {alias_cmd, 0, strlen(alias_cmd)};
     t_command *cmd = create_command();
     t_command *current_cmd = cmd;
     int arg_index = 0;
@@ -46,7 +48,7 @@ t_command *parse_command_line(char *line) {
     t_token *token;
     while ((token = get_next_token(&lexer))->type != TOKEN_EOF) {
         switch (token->type) {
-            case TOKEN_WORD:
+            case TOKEN_WORD: {
                 if (!current_cmd->name) {
                     current_cmd->name = strdup(token->value);
                     current_cmd->args[0] = strdup(token->value);
@@ -56,7 +58,7 @@ t_command *parse_command_line(char *line) {
                     current_cmd->args[arg_index] = NULL;
                 }
                 break;
-
+            }
             case TOKEN_PIPE:
                 current_cmd->args[arg_index] = NULL;
                 current_cmd->pipe_next = create_command();
