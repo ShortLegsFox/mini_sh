@@ -18,6 +18,8 @@ static builtin t_builtins[] = {
     {"echo", &builtin_echo},
     {"exit", &builtin_exit},
     {"pwd", &builtin_pwd},
+    {"unset", &builtin_unset},
+    {"export", &builtin_export},
     {NULL, NULL}
 };
 

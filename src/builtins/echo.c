@@ -1,7 +1,7 @@
 /**
-* \file ps.c
- * \ps command for mini_sh.
- * \author SLF
+* \file echo.c
+ * \echo command for mini_sh.
+ * \author Ian B, Léo H.
  * \version 0.1
  * \date 05/01/2025
  *
@@ -17,11 +17,12 @@
 int builtin_echo(char **args) {
     for (int i = 1; args[i] != NULL; i++) {
         char *arg = args[i];
-        int len = strlen(arg);
 
-        // If the first and last characters are quotes, print inside part only
-        if ((arg[0] == '"' || arg[0] == '\'') && arg[len - 1] == arg[0] && len > 1) {
-            fwrite(arg + 1, 1, len - 2, stdout);
+        if (arg[0] == '$' && strlen(arg) > 1) {
+            char *env_value = getenv(arg + 1);
+            if (env_value) {
+                printf("%s", env_value);
+            }
         } else {
             printf("%s", arg);
         }

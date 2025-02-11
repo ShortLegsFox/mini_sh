@@ -1,7 +1,7 @@
 /**
-* \file ls.c
- * \ls command for mini_sh.
- * \author SLF
+* \file exit.c
+ * \exit command for mini_sh.
+ * \author Ian B, Léo H.
  * \version 0.1
  * \date 05/01/2025
  *

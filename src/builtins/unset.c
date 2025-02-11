@@ -1,6 +1,6 @@
 /**
-* \file cd.c
- * \cd command for mini_sh.
+* \file unset.c
+ * \unset command for mini_sh (env variable).
  * \author Ian B, Léo H.
  * \version 0.1
  * \date 05/01/2025
@@ -9,20 +9,17 @@
  */
 #include <stdio.h>
 #include <stdlib.h>
-#include <unistd.h>
 #include "builtins.h"
 
 
-int builtin_cd(char **args) {
-    if (args[1] == NULL) {
-        fprintf(stderr, "cd: missing argument\n");
+int builtin_unset(char **args) {
+    if (!args[1]) {
+        fprintf(stderr, "Usage: unset VAR\n");
         return 1;
     }
-
-    if (chdir(args[1]) != 0) {
-        perror("cd");
+    if (unsetenv(args[1]) != 0) {
+        perror("unsetenv");
         return 1;
     }
-
     return 0;
 }
