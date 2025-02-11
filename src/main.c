@@ -50,6 +50,16 @@ int main(int argc, char **argv) {
     char command[MAX_CMD_LENGTH];
     int status = 0;
 
+    // -- For Batch mode
+    if (argc > 2 && strcmp(argv[1], "-c") == 0) {
+        t_command *cmd = parse_command_line(argv[2]);  // Parser ta commande ici
+        if (cmd) {
+            execute_command(cmd);
+        }
+        return 0;
+    }
+
+    // -- Execution loop
     while (1) {
         display_prompt();
         int saved_stdout = dup(1);
