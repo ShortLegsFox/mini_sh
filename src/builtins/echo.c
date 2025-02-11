@@ -19,9 +19,12 @@ int builtin_echo(char **args) {
         char *arg = args[i];
         int len = strlen(arg);
 
-        // If the first and last characters are quotes, print inside part only
-        if ((arg[0] == '"' || arg[0] == '\'') && arg[len - 1] == arg[0] && len > 1) {
-            fwrite(arg + 1, 1, len - 2, stdout);
+        // Vérifie si l'argument commence par '$'
+        if (arg[0] == '$' && strlen(arg) > 1) {
+            char *env_value = getenv(arg + 1); // Récupère la valeur de la variable
+            if (env_value) {
+                printf("%s", env_value);
+            }
         } else {
             printf("%s", arg);
         }
