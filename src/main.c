@@ -52,6 +52,7 @@ int main(int argc, char **argv) {
 
     while (1) {
         display_prompt();
+        int saved_stdout = dup(1);
 
         // -- Check for clean exit (in case of error or ctrl D / Z)
         if (fgets(command, MAX_CMD_LENGTH, stdin) == NULL) {
@@ -73,6 +74,8 @@ int main(int argc, char **argv) {
         }
 
         free_command(cmd);
+        dup2(saved_stdout, 1);
+        close(saved_stdout);
     }
 
     return status;

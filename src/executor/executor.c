@@ -100,35 +100,26 @@ int wait_for_children(void) {
 }
 
 int handle_redirections(t_command *cmd) {
-    int fd_in = -1, fd_out = -1;
-
     if (cmd->input_file) {
-        fd_in = open(cmd->input_file, O_RDONLY);
-        if (fd_in == -1) {
-            fprintf(stderr, "Error opening %s: %s\n", cmd->input_file, strerror(errno));
+        int fd = open(cmd->input_file, O_RDONLY);
+        if (fd == -1) {
+            perror("open");
             return -1;
         }
-        if (dup2(fd_in, STDIN_FILENO) == -1) {
-            fprintf(stderr, "Error redirecting input: %s\n", strerror(errno));
-            close(fd_in);
-            return -1;
-        }
-        close(fd_in);
+        dup2(fd, STDIN_FILENO);
+        close(fd);
     }
 
     if (cmd->output_file) {
-        int flags = O_WRONLY | O_CREAT | (cmd->append_output ? O_APPEND : O_TRUNC);
-        fd_out = open(cmd->output_file, flags, 0644);
-        if (fd_out == -1) {
-            fprintf(stderr, "Error opening %s: %s\n", cmd->output_file, strerror(errno));
+        int flags = O_WRONLY | O_CREAT;
+        flags |= cmd->append_output ? O_APPEND : O_TRUNC;
+        int fd = open(cmd->output_file, flags, 0644);
+        if (fd == -1) {
+            perror("open");
             return -1;
         }
-        if (dup2(fd_out, STDOUT_FILENO) == -1) {
-            fprintf(stderr, "Error redirecting output: %s\n", strerror(errno));
-            close(fd_out);
-            return -1;
-        }
-        close(fd_out);
+        dup2(fd, STDOUT_FILENO);
+        close(fd);
     }
 
     return 0;
